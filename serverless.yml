@@ -1,0 +1,155 @@
+service: happi-services
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: ap-south-1
+  lambdaHashingVersion: 20201221
+  versionFunctions: false
+  environment:
+    MONGO_URL: ${self:custom.mongoUrl.${self:provider.stage}}
+    MONGO_DB: ${self:custom.mongoDb.${self:provider.stage}}
+
+functions:
+  app:
+    memorySize: 1024
+    timeout: 200
+    handler: index.handler
+    events:
+      - http:
+          path: /banner
+          method: get
+          caching:
+            enabled: true
+      - http: ANY /
+      - http: 'ANY /{proxy+}'
+  auth:
+    memorySize: 1024
+    timeout: 200
+    handler: auth.handler
+    events:
+      - http: ANY /api
+      - http: 'ANY /api/{proxy+}'
+  cart:
+    memorySize: 1024
+    timeout: 200
+    handler: cart.handler
+    events:
+      - http: ANY /api/cart
+      - http: 'ANY /api/cart/{proxy+}'
+  categories:
+    memorySize: 1024
+    timeout: 200
+    handler: categories.handler
+    events:
+      - http:
+          path: /api/cat
+          method: get
+          caching:
+            enabled: true
+      - http:
+          path: /api/cat-fetch
+          method: get
+          caching:
+            enabled: true
+            cacheKeyParameters:
+              - name: request.querystring.url
+      - http:
+          path: /api/homepage
+          method: get
+          caching:
+            enabled: true
+      - http:
+          path: /api/emi
+          method: get
+          caching:
+            enabled: true
+            cacheKeyParameters:
+              - name: request.querystring.amount
+      - http:
+          path: /api/product/{productId}
+          method: get
+          caching:
+            enabled: true
+            cacheKeyParameters:
+              - name: request.path.productId
+      - http: 'ANY /api/cat/{proxy+}'
+  payment:
+    memorySize: 1024
+    timeout: 200
+    handler: payment.handler
+    events:
+      - http: ANY /payment
+      - http: 'ANY /payment/{proxy+}'
+  orders:
+    memorySize: 1024
+    timeout: 200
+    handler: orders.handler
+    events:
+      - http: ANY /api/orders
+      - http: 'ANY /api/orders/{proxy+}'
+  third-party:
+    memorySize: 1024
+    timeout: 200
+    handler: third-party.handler
+    events:
+      - http: ANY /third-party
+      - http: 'ANY /third-party/{proxy+}'
+  utils:
+    memorySize: 1024
+    timeout: 200
+    handler: utils.handler
+    events:
+      - http: ANY /utils
+      - http: 'ANY /utils/{proxy+}'
+  bajajlogs:
+    memorySize: 1024
+    timeout: 200
+    handler: bajajlogs.handler
+    events:
+       - http: ANY /api/bajajlogs
+       - http: 'ANY /api/bajajlogs/{proxy+}'
+  admin:
+    memorySize: 2048
+    timeout: 600
+    handler: admin.handler
+    events:
+       - http: ANY /api/admin
+       - http: 'ANY /api/admin/{proxy+}'
+  ingramreport:
+    memorySize: 2048
+    timeout: 600
+    handler: ingramreport.handler
+    events:
+       - http: ANY /api/ingram
+       - http: 'ANY /api/ingram/{proxy+}'     
+
+
+plugins:
+  - serverless-offline
+  - serverless-api-gateway-caching
+  - serverless-prune-plugin
+
+custom:
+  serverless-offline:
+    httpPort: 3000
+    #port: 3005
+    host: 0.0.0.0
+    #resourceRoutes: true
+  apiGatewayCaching:
+    enabled: true
+    clusterSize: '0.5'
+    ttlInSeconds: 360
+  stages:
+    - dev
+    - qa
+  mongoUrl:
+    dev: mongodb+srv://sowmya:iNNrxOhVfEdvsUaI@happinewsls.cnw2n.mongodb.net/happi-new-sls?replicaSet=atlas-11ilgn-shard-0&readPreference=primary&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-1
+    qa: mongodb+srv://sowmya:iNNrxOhVfEdvsUaI@happinewsls.cnw2n.mongodb.net/happi-qa?replicaSet=atlas-11ilgn-shard-0&readPreference=primary&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-1
+  mongoDb:
+    dev: happi-new-sls
+    qa: happi-qa
+package:
+  exclude:
+    - Migrations/**

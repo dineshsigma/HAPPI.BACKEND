@@ -1,0 +1,14 @@
+
+assist  -------1 hr
+abandonedcart ------- 1 hr
+akshayaPatra --------- IST 8 AM
+assignleads ------ 1hr
+bajaj ------ 2 hrs
+priceSync ---- 1 hr
+product-sync ---- 30 min
+
+
+0 0,30 9,10,11,12,13,14,15,16,17,18,19,20,21,22 ? * * * cd /home/ubuntu/jobs && node assist.js && triger.txt
+echo ""
+0 0 * * * cd /home/ubuntu/jobs && echo "$(date)" >> triger.txt && node assist.js
+0,30 9-22 * * * cd /home/ubuntu/jobs && echo "$(date)" >> triger.txt && node assist.js

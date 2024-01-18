@@ -1,0 +1,24 @@
+let axios = require("axios");
+
+async function whatAppTemplate(data) {
+  try {
+    let templateconfig = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: "https://api.freshchat.com/v2/outbound-messages/whatsapp",
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJpS216TTVkenRIWmprdmdSY3VrVHgxTzJ2SFlTM0U5YmVJME9XbXRNR1ZzIn0.eyJqdGkiOiI1ZTE4M2IzNS0zYzUyLTQwMTMtYWM4NC02OWI2ZGM4ZjNmODEiLCJleHAiOjE5MTM5NDg3OTEsIm5iZiI6MCwiaWF0IjoxNTk4NTg4NzkxLCJpc3MiOiJodHRwOi8vaW50ZXJuYWwtZmMtdXNlMS0wMC1rZXljbG9hay1vYXV0aC0xMzA3MzU3NDU5LnVzLWVhc3QtMS5lbGIuYW1hem9uYXdzLmNvbS9hdXRoL3JlYWxtcy9wcm9kdWN0aW9uIiwiYXVkIjoiMjAyMDQ0OTMtYmFlYS00MTgwLTk4MzMtM2UxNzMyMDVhYTdlIiwic3ViIjoiYTg0NmU0NTktMDcwNy00ZWY4LWEzNDgtNTkzMzFkN2M4M2U2IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiMjAyMDQ0OTMtYmFlYS00MTgwLTk4MzMtM2UxNzMyMDVhYTdlIiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiZDFhY2M3N2UtMDI4My00MDE1LTgwMzMtYmUwNmY0MjI4N2I0IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6W10sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJhZ2VudDp1cGRhdGUgbWVzc2FnZTpjcmVhdGUgYWdlbnQ6Y3JlYXRlIG1lc3NhZ2U6Z2V0IGRhc2hib2FyZDpyZWFkIHJlcG9ydHM6ZXh0cmFjdDpyZWFkIHJlcG9ydHM6cmVhZCBhZ2VudDpyZWFkIGNvbnZlcnNhdGlvbjp1cGRhdGUgdXNlcjpkZWxldGUgY29udmVyc2F0aW9uOmNyZWF0ZSBvdXRib3VuZG1lc3NhZ2U6Z2V0IG91dGJvdW5kbWVzc2FnZTpzZW5kIHVzZXI6Y3JlYXRlIHJlcG9ydHM6ZmV0Y2ggdXNlcjp1cGRhdGUgdXNlcjpyZWFkIGJpbGxpbmc6dXBkYXRlIHJlcG9ydHM6ZXh0cmFjdCBjb252ZXJzYXRpb246cmVhZCIsImNsaWVudEhvc3QiOiIxOTIuMTY4LjEyOC4xNTkiLCJjbGllbnRJZCI6IjIwMjA0NDkzLWJhZWEtNDE4MC05ODMzLTNlMTczMjA1YWE3ZSIsImNsaWVudEFkZHJlc3MiOiIxOTIuMTY4LjEyOC4xNTkifQ.4YC8BlJrmddahLw0iowvDxKamlS4P795yhazn9NBIegxZ1w80Q6LAtd_P5xUHWgW7djIBlzPY5tgB6aq92oRDGt2GcqOjJ8Odz-Y1ya_hPuGkkiF3baWzuS_NaSRIwskIGhnkPpvl5l0MoguiyV7RFyphtJ7EvomyghxJ9YNYg8B18sT1eJvOwPULJdiluoe3teyGIPdO7mjOIZtJfv_6hnIFOY8wsD2DvV3Wn28w0Mpn4uQftRLvuYvD62g4i4sZyTmYpRfDSE1tDdcpkVoTUf-VTsFcdFG7PCYfW5U8K1ykjwZ9iOMaoGMQszIeeLHNezICubosBJjFEWKy11aUQ",
+        "Content-Type": "application/json",
+      },
+      data: JSON.stringify(data),
+    };
+    let response = await axios(templateconfig);
+    return response;
+  } catch (error) {
+    console.log("error", error);
+    return "error";
+  }
+}
+
+module.exports.whatAppTemplate = whatAppTemplate;

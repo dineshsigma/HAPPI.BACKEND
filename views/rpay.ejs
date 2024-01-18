@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Happi Razorypay</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        background-color: #ff7f2e;
+        font-family: "Concert One", cursive;
+        margin: 0;
+        overflow: hidden;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="img-b" style="text-align: center; margin-top: 1rem">
+      <img
+        src="https://api.happimobiles.com/img/happi-logo-local.png"
+        alt=""
+        style="height: 100px; text-align: center"
+      />
+    </div>
+    <div class="container">
+      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+      <script>
+        var options = {
+          key: "<%=r_key_id%>", // Enter the Key ID generated from the Dashboard
+          amount: "<%=amount%>", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+          currency: "INR",
+          name: "Happi Mobiles",
+          description: "Test Transaction",
+          image: "https://api.happimobiles.com/img/footer-logo.png",
+          order_id: "<%=id%>", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+          handler: function (response) {
+            var url = "/payment/rpay/verify?cart_id=<%=happi_cart_id%>";
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url);
+
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4) {
+                console.log(xhr.status);
+                console.log(xhr.responseText);
+                setTimeout(function () {
+                  location.replace(
+                    `https://www.happimobiles.com/account/payment-success?rid=${response.razorpay_order_id}&rpid=${response.razorpay_payment_id}`
+                  );
+                }, 2000);
+              }
+            };
+
+            var data = {
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_signature: response.razorpay_signature,
+              happi_cart_id: "<%=happi_cart_id%>",
+            };
+
+            data = JSON.stringify(data);
+            xhr.send(data);
+          },
+          prefill: {
+            // name: "Gaurav Kumar",
+            // email: "gaurav.kumar@example.com",
+            // contact: "9999999999",
+          },
+          notes: {
+            address: "Razorpay Corporate Office",
+          },
+          theme: {
+            color: "#ff7f2e",
+          },
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.on("payment.failed", function (response) {
+          var q = `code=${response.error.code}&description=${response.error.source}&step=${response.error.step}&order_id=${response.error.metadata.order_id}&payment_id=${response.error.metadata.payment_id}`;
+          location.replace(
+            `https://www.happimobiles.com/cart/preview?${q}`
+          );
+        });
+
+        setTimeout(() => {
+          rzp1.open();
+          //e.preventDefault();
+        }, 2000);
+      </script>
+    </div>
+  </body>
+</html>

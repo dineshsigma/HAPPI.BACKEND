@@ -1,0 +1,118 @@
+# Docker
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+variables:
+  serviceConnection: 'GcloudRegistry'
+  imageRegistry: 'gcr.io/ornate-reef-377904'
+  imageRepository: 'happi-api-qa'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  tag: 'latest'
+
+  GCLOUD_PROJECT_ID: ornate-reef-377904
+  GCLOUD_AUTH: 'gcloud-service-key.json'
+  GCLOUD_RUN_SERVICE: happi-api-qa
+  GCLOUD_REGION: us-central1
+  GCLOUD_KEY_PATH: C:\Users\ADMIN\agent\happi-service-account\gcloud-service-key.json
+  GCLOUD_SERVICE_ACCOUNT: gcloud-service-key@ornate-reef-377904.iam.gserviceaccount.com
+
+  vmImageName: LocalServerAgent
+
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool: $(vmImageName)
+    steps:
+      - task: Docker@2
+        displayName: Build Image
+        inputs:
+            command: build
+            repository: $(imageRegistry)/$(imageRepository)
+            dockerfile: $(dockerfilePath)
+            tags: '$(tag)'
+- stage: Dev
+  displayName: Dev Stage
+  dependsOn: Build
+  condition: succeeded('Build')
+  jobs:
+      - deployment: DevJob
+        pool: LocalServerAgent
+        environment: 'Development'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+              - task: Docker@2
+                inputs:
+                  repository: $(imageRegistry)/$(imageRepository)
+                  command: 'build'
+                  Dockerfile: '**/Dockerfile'
+                  tags: '$(tag)'
+- stage: Test
+  displayName: Test Stage
+  dependsOn: Dev
+  condition: succeeded('Dev')
+  jobs:
+    - deployment: QAJob
+      pool: LocalServerAgent
+      environment: 'Quality'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - task: Docker@2
+              inputs:
+                repository: $(imageRegistry)/$(imageRepository)
+                command: build
+                Dockerfile: '**/Dockerfile'
+                tags: '$(tag)'
+- stage: Push
+  displayName: Push & Deploy Stage
+  dependsOn: Test
+  condition: succeeded('Test')
+  jobs:
+      - deployment: PushJob
+        pool: LocalServerAgent
+        environment: 'Push Image'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: DownloadSecureFile@1
+                  name: gcloudAuthkey
+                  displayName: 'Download Service Account Key'
+                  inputs:
+                    secureFile: '$(GCLOUD_AUTH)'
+                - task: GoogleCloudSdkInstaller@0
+                  displayName: 'install gcloud SDK'
+                  inputs:
+                    version: 419.0.0
+
+                - task: CmdLine@2
+                  displayName: 'deploy cloud function'
+                  inputs:
+                    script: |
+                      gcloud auth activate-service-account $(GCLOUD_SERVICE_ACCOUNT) --key-file=$(GCLOUD_KEY_PATH)
+                      gcloud config set account $(GCLOUD_SERVICE_ACCOUNT)
+                      gcloud auth configure-docker
+                - task: Docker@2
+                  displayName: Push an Image
+                  inputs:
+                    container: $(imageRepository)
+                    repository: '$(imageRegistry)/$(imageRepository)'
+                    command: 'buildAndPush'
+                    Dockerfile: '**/Dockerfile'
+                    tags: '$(tag)'
+    
+                - task: CmdLine@2
+                  displayName: 'deploy cloud run'
+                  inputs:
+                    script: |
+                      gcloud run deploy $(GCLOUD_RUN_SERVICE) --project=$(GCLOUD_PROJECT_ID) --region=$(GCLOUD_REGION) --image=$(imageRegistry)/$(imageRepository):$(tag) --service-account=$(GCLOUD_SERVICE_ACCOUNT)
+                      

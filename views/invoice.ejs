@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Editable Invoice</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script defer src="/js/jquery.js"></script>
+  <script defer src="/js/example.js"></script>
+</head>
+<body>
+  <div id="page-wrap">
+    <textarea id="header">INVOICE</textarea>
+
+    <div id="identity">
+      <textarea id="address">
+        NAME: <%= users_master?.name %>
+        Contact no: <%= users_master?.mobile %>
+        Location:<%= users_master?.block %>,<%= users_master?.district %>
+        GST: <%= users_master?.gstnumber %>
+      </textarea>
+
+      <div id="logo">
+        <div id="logoctr">
+          <a href="javascript:;" id="change-logo" title="Change logo">Change Logo</a>
+          <a href="javascript:;" id="save-logo" title="Save changes">Save</a> |
+          <a href="javascript:;" id="delete-logo" title="Delete logo">Delete Logo</a>
+          <a href="javascript:;" id="cancel-logo" title="Cancel changes">Cancel</a>
+        </div>
+
+        <div id="logohelp">
+          <input id="imageloc" type="text" size="50" value="" /><br />
+          (max width: 540px, max height: 100px)
+        </div>
+        <!-- <img id="image" src="images/logo.png" alt="logo" /> -->
+        <h1>IGSM</h1>
+      </div>
+    </div>
+
+    <div style="clear: both"></div>
+
+    <div id="customer">
+      <div>
+        <div id="customer-data">
+          <p class="customer-data-para">CUSTOMER MOBILE:</p>
+          <p id="customer-title"><%= upload_imeinumbers?.mobile %></p>
+        </div>
+        <div id="customer-data">
+          <p class="customer-data-para">ID TYPE: </p>
+          <p id="customer-title"><%= upload_imeinumbers?.id_type %></p>
+        </div>
+        <div id="customer-data">
+          <p class="customer-data-para">NETWORK TYPE:</p>
+          <p id="customer-title"><%= upload_imeinumbers?.network %></p>
+        </div>
+      </div>
+
+      <table id="meta">
+        <tr>
+          <td class="meta-head">Invoice #</td>
+          <td><textarea><%= upload_imeinumbers?.invoice_number %></textarea></td>
+        </tr>
+        <tr>
+          <td class="meta-head">Date</td>
+          <td><textarea id="date"><%= upload_imeinumbers?.updated_at %></textarea></td>
+        </tr>
+        <tr>
+          <td class="meta-head">Amount Due</td>
+          <td>
+            <div class="due">₹ <%= model_master?.price %></div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <table id="items">
+      <tr>
+        <th>Item</th>
+        <th>Description</th>
+        <th>Unit Cost</th>
+        <th>Quantity</th>
+        <th>Price</th>
+      </tr>
+
+      <tr class="item-row">
+        <td class="item-name">
+          <br class="delete-wpr">
+            <text><%= model_master.brand_name %></text> </br>
+            <text><%= model_master.model %></text>
+            <a class="delete" href="javascript:;" title="Remove row">X</a>
+          </div>
+        </td>
+
+        <td class="description">
+          <!-- <textarea>
+          Yearly renewals of SSL certificates on main domain and several subdomains</textarea> -->
+        </td>
+        <td><textarea class="cost">₹ <%= model_master?.price %></textarea></td>
+        <td><textarea class="qty">1</textarea></td>
+        <td><span class="price">₹ <%= model_master?.price %></span></td>
+      </tr>
+
+      <!-- <tr id="hiderow">
+        <td colspan="5">
+          <a id="addrow" href="javascript:;" title="Add a row">Add a row</a>
+        </td>
+      </tr> -->
+
+      <tr>
+        <td colspan="2" class="blank"></td>
+        <td colspan="2" class="total-line">Subtotal</td>
+        <td class="total-value">
+          <div id="subtotal">₹ <%= model_master?.price %></div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="blank"></td>
+        <td colspan="2" class="total-line">Total</td>
+        <td class="total-value">
+          <div id="total">₹ <%= model_master?.price %></div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="blank"></td>
+        <td colspan="2" class="total-line">Amount Paid</td>
+
+        <td class="total-value"><textarea id="paid">₹ <%= model_master?.price %></textarea></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="blank"></td>
+        <td colspan="2" class="total-line balance">Balance Due</td>
+        <td class="total-value balance">
+          <div class="due">₹ 0.00</div>
+        </td>
+      </tr>
+    </table>
+
+    <div id="terms">
+      <h5>Terms</h5>
+      <textarea>
+      NET 30 Days. Finance Charge of 1.5% will be made on unpaid balances after 30 days.</textarea>
+    </div>
+  </div>
+
+  <script>
+    setTimeout(function() {
+      window.print();
+    }, 3000);
+  </script>
+</body>
+</html>

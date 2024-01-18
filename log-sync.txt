@@ -1,0 +1,29 @@
+productsSync
+46 --- 935068001wo61b --- MacBook Air 13-inch  Apple M1 chip with 8-core CPU and 7-core GPU 256GB  Space Grey -- laptops -- https://happimobiles.s3.ap-south-1.amazonaws.com/happi/MKGIWWPK-1636615896378.jpg [ { id: '935068001wo61b', errors: [] } ]
+45 --- 892538001dd61b --- DELL INSPIROR 3511 Core i5 Laptop Carbon 1135G7 8GB | 512GB SSD -- laptops -- https://happimobiles.s3.ap-south-1.amazonaws.com/happi/LOOVBTON-1634063141290.jpg [ { id: '892538001dd61b', errors: [] } ]
+44 --- 892514001mb61b --- Dell INSPIRON 153000 Core i3 10th Gen 8 GB/1 TB HDD/Windows 10 Home Softmint -- laptops,laptops-dell --  [ { id: '892514001mb61b', errors: [] } ]
+43 --- 892490001rx61b --- Dell D560587WIN9S i5-1135G7|16GB DDR4 | 512GB SSD -- laptops, --  [ { id: '892490001rx61b', errors: [] } ]
+42 --- 892486001py61b --- Dell D560509WIN9S i5-1135G7|8GB DDR4 | 512GB SSD -- laptops,laptops-dell -- https://happimobiles.s3.ap-south-1.amazonaws.com/happi/MQQOAQJG-1634033955352.jpg [ { id: '892486001py61b', errors: [] } ]
+41 --- 891786001ui61b --- HP 15s Core i3 10th Gen Windows 10 Home Thin and Light Laptop  DU1516TU Jet Black 8 GB | 512 GB SSD -- laptops,laptops-hp -- https://happimobiles.s3.ap-south-1.amazonaws.com/happi/SDOGAUVK-1634018865601.jpg [ { id: '891786001ui61b', errors: [] } ]
+40 --- 890373001jl61b --- HP 15s Ryzen 3 Dual Core 3250U  Windows 10 Home Laptop Natural Silver 15s-GR0012AU 8 GB |1 TB HDD| 256 GB SSD -- laptops,laptops-hp -- https://happimobiles.s3.ap-south-1.amazonaws.com/happi/PBAISNVV-1633934120297.jpg [ { id: '890373001jl61b', errors: [] } ]
+39 --- 862859001ps61b --- Dell INSPIRON 3501 I5 Soft Mint -- laptops,laptops-dell -- https://happimobiles.s3.ap-south-1.amazonaws.com/happi/LVFQOAGK-1632282308559.jpg [ { id: '862859001ps61b', errors: [] } ]
+38 --- 862833001lo61b --- Avita  Magus Cosmos 2 in 1 laptop Charcoal Grey -- laptops -- https://happimobiles.s3.ap-south-1.amazonaws.com/happi/RRDTJJIV-1632281640071.jpg [ { id: '862833001lo61b', errors: [] } ]
+
+
+
+Redmi Note 7 Pro – 6GB/64GB
+Samsung Galaxy S10 Plus Black 12GB|1TB
+Samsung Galaxy S10 Plus Blue 8GB|512GB
+Samsung Galaxy S10 Plus Blue 12GB|1TB
+Oppo A5 2020 Blue 4GB|64GB
+Oppo A5 2020 White 3GB|64GB
+Redmi Note 7 Pro – 6GB/64GB
+Samsung Galaxy S10 Plus Black 12GB|1TB
+Samsung Galaxy S10 Plus Blue 8GB|512GB
+Samsung Galaxy S10 Plus Blue 12GB|1TB
+Oppo A5 2020 Blue 4GB|64GB
+Oppo A5 2020 White 3GB|64GB
+iPhone XR Red 128GB 
+Redmi 9 Prime Space Blue 4GB|128GB
+ZEAL PRIME POWER BANK 10000MAH
+Realme 9 Meteor Black 6GB|128GB

@@ -1,0 +1,59 @@
+stages:
+  - build
+  - dev
+  - test
+  - auth
+  - push
+  - deploy
+
+variables:
+  #IMAGE_REGISTRY: 'gcr.io/ornate-reef-377904'
+  #IMAGE_REPOSITORY: 'happi-api-qa'
+  IMAGE_NAME: 'happi-api-qa'
+  IMAGE_TAG: 'latest'
+  GCLOUD_PROJECT_ID: 'ornate-reef-377904'
+  GCLOUD_REGION: us-central1
+  GCLOUD_KEY_PATH: C:\Users\ADMIN\agent\happi-service-account\gcloud-service-key.json
+  GCLOUD_SERVICE_ACCOUNT: gcloud-service-key@ornate-reef-377904.iam.gserviceaccount.com
+  GCLOUD_RUN_SERVICE: happi-api-qa
+
+
+
+build:
+  stage: build
+  script:
+    - echo "Build an Docker image..."
+    #docker build -t ${imageRegistry}/${imageRepository}:$IMAGE_TAG .
+    - docker build -t gcr.io/$GCLOUD_PROJECT_ID/${IMAGE_NAME}:$IMAGE_TAG .
+
+  only:
+    - master
+
+dev:
+  stage: dev
+  script:
+    - echo "Running DEV Stage"
+
+test:
+  stage: test
+  script: 
+    - echo "Running TEST Stage"
+
+auth:
+  stage: auth
+  script:
+    - echo "Logging into GCP Container Registry..."
+    - echo "$GCP_SERVICE_ACCOUNT_KEY" > gcp-key.json
+    - gcloud auth activate-service-account $GCLOUD_SERVICE_ACCOUNT --key-file=$GCLOUD_KEY_PATH
+    - gcloud auth configure-docker
+
+push:
+  stage: push
+  script:
+    - echo "Image push to GCP Container Registry..."
+    - docker push gcr.io/$GCLOUD_PROJECT_ID/${IMAGE_NAME}:$IMAGE_TAG
+    
+deploy:
+  stage: deploy
+  script:
+    - gcloud run deploy $GCLOUD_RUN_SERVICE --project=$GCLOUD_PROJECT_ID --region=$GCLOUD_REGION --image=gcr.io/$GCLOUD_PROJECT_ID/${IMAGE_NAME}:$IMAGE_TAG --service-account=$GCLOUD_SERVICE_ACCOUNT

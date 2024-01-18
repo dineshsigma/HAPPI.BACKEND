@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Happi PayU</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        background-color: #ff7f2e;
+        font-family: "Concert One", cursive;
+        margin: 0;
+        overflow: hidden;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="img-b" style="text-align: center; margin-top: 1rem">
+      <img
+        src="https://www.happimobiles.com/img/happi-logo-local.png"
+        alt=""
+        style="height: 100px; text-align: center"
+      />
+    </div>
+    
+    <center>
+      <h1>Please do not refresh this page...</h1>
+   </center>
+   <form method="post" action="<%=submit_url%>" name="payu">
+      <table border="1">
+         <tbody>
+            <input type="hidden" name="udf5" value="<%=udf5%>">
+            <input type="hidden" name="key" value="<%=payu_key_id%>">
+            <input type="hidden" name="txnid" value="<%=txnid%>">
+            <input type="hidden" name="amount" value="<%=amount%>">
+            <input type="hidden" name="firstname" value="<%=firstname%>">
+            <input type="hidden" name="lastname" value="<%=lastname%>">
+            <input type="hidden" name="phone" value="<%=phone%>">
+            <input type="hidden" name="email" value="<%=email%>">
+            <input type="hidden" name="address1" value="<%=address1%>">
+            <input type="hidden" name="address2" value="<%=address2%>">
+            <input type="hidden" name="city" value="<%=city%>">
+            <input type="hidden" name="state" value="<%=state%>">
+            <input type="hidden" name="country" value="<%=country%>">
+            <input type="hidden" name="zipcode" value="<%=zipcode%>">
+            <input type="hidden" name="Pg" value="<%=Pg%>">
+            <input type="hidden" name="productinfo" value="<%=productinfo%>">
+            <input type="hidden" name="surl" value="<%=surl%>">
+            <input type="hidden" name="furl" value="<%=furl%>">
+            <input type="hidden" name="curl" value="<%=curl%>">
+            <input type="hidden" name="hash" value="<%=hash%>">
+            <input type="hidden" name="offer_key" value="<%=offer_key%>">
+         </tbody>
+      </table>
+      
+   </form>
+   <script type="text/javascript">
+    setTimeout(function(){
+         document.payu.submit();
+    }, 1000); 
+    
+ 
+ </script>
+   
+  </body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Happi <==> AmazonPay</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            background-color: #ff7f2e;
+            font-family: "Concert One", cursive;
+            margin: 0;
+            overflow: hidden;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="img-b" style="text-align: center; margin-top: 1rem">
+    <img
+            src="https://api.happimobiles.com/img/happi-logo-local.png"
+            alt=""
+            style="height: 100px; text-align: center"
+    />
+</div>
+
+<center>
+    <h2>Please Scan In Amazon Pay App</h2>
+    <br>
+    <img width="300px" src="data:image/jpg;base64, <%=response.payLoad%>" >
+    <br>
+    <button onclick="openAn()"  >
+        Click Here To Open Amazon Pay
+    </button>
+</center>
+
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script >
+        function runAmazonPayMerchentId(id, orderId) {
+
+            var Timer = setInterval(function () {
+                console.log("timer trigger")
+                $.ajax(`/payment/amazon/verify?transactionId=${id}`, {
+                    type: 'POST',
+                    dataType: 'json', // type of response data
+                    contentType: 'application/json',
+                    success: function (response, status, xhr) {
+                            console.log(response)
+                            if (response.message === "TRANSACTION SUCCESS") {
+                                justClose()
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Thank You',
+                                    text: "Payment Received Please wait..",
+                                    showConfirmButton: false,
+                                    timer: 10000,
+                                    timerProgressBar: true,
+                                });
+                                setTimeout(function () {
+                                    location.replace(`https://www.happimobiles.com/account/payment-success?rid=${response.order_id}&rpid=`+id);
+                                }, 10000);
+                                clearInterval(Timer);
+                            }
+
+                    }
+                });
+            }, 6000);
+
+
+        }
+        var winr;
+        function openAn(){
+            winr=window.open("<%=response.billPageUrl%>","");
+        }
+
+        function justClose(){
+            if(winr != undefined){
+                winr.close();
+            }
+
+        }
+        runAmazonPayMerchentId('<%=response.merchantTransactionId%>');
+
+    </script>
+    </body>
+
+
+</html>
